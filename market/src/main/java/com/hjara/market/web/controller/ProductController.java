@@ -3,8 +3,9 @@ package com.hjara.market.web.controller;
 import com.hjara.market.domain.Product;
 import com.hjara.market.domain.services.ProductServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +32,9 @@ public class ProductController {
      *       Entrada:
      *       Salida: Lista de todos los productos
      * */
-    public List<Product> getAll(){
-        return productServices.getAll();
+    @GetMapping("/all")
+    public ResponseEntity<Product> getAll(){
+        return new ResponseEntity(productServices.getAll(), HttpStatus.OK);
     }
 
     /**
@@ -42,8 +44,11 @@ public class ProductController {
      *       Entrada: productId - Identificador del producto
      *       Salida:  Información del producto.
      * */
-    public Optional<Product> getProduct(int productId){
-        return productServices.getProduct(productId);
+    @GetMapping("/{Id}")
+    public ResponseEntity<Product> getProduct(@PathVariable("Id") int productId){
+        return productServices.getProduct(productId)
+                .map(product -> new ResponseEntity(product, HttpStatus.OK))
+                .orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
     }
 
     /**
@@ -53,8 +58,11 @@ public class ProductController {
      *       Entrada: categoryId - Identificador de la categoria
      *       Salida:  Lista de productos.
      * */
-    public Optional<List<Product>> getByCategory(int categoryId){
-        return productServices.getByCategory(categoryId);
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<Product>> getByCategory(@PathVariable("categoryId") int categoryId){
+        return productServices.getByCategory(categoryId)
+                .map(products -> new ResponseEntity(products, HttpStatus.OK))
+                .orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
     }
 
     /**
@@ -64,8 +72,9 @@ public class ProductController {
      *       Entrada: product - Producto
      *       Salida : Información del producto.
      * */
-    public Product save(Product product){
-        return productServices.save(product);
+    @PostMapping("/save")
+    public ResponseEntity<Product> save(@RequestBody Product product){
+        return new ResponseEntity<>(productServices.save(product), HttpStatus.CREATED);
     }
 
     /**
@@ -76,8 +85,13 @@ public class ProductController {
      *       Salida : True  - Producto eliminado
      *                False - Producto no eliminado
      * */
-    public boolean delete(int productId){
-        return productServices.delete(productId);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable("id") int productId){
+        if (productServices.delete(productId)){
+            return new ResponseEntity(HttpStatus.OK);
+        }else{
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
