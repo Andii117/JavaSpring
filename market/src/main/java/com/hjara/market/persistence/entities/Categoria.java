@@ -29,6 +29,16 @@ public class Categoria {
     /*Se pone en Lista*/
     private List<Producto> productos;
 
+    /*Getters and Setters*/
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
     public Integer getIdCategoria() {
         return idCategoria;
     }

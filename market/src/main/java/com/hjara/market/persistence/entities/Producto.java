@@ -1,7 +1,5 @@
 package com.hjara.market.persistence.entities;
 
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
-
 import javax.persistence.*;
 
 /*Esta clase mapea la tabla(productos) de la BD*/
@@ -34,6 +32,8 @@ public class Producto {
 
     private Boolean estado;
 
+    /*INTERRELACIONES*/
+
     /*Atributo para obtener la relación entre categoria y productos*/
     /*La anotación hace referencia a la relación Una Categoria tiene Muchos Productos*/
     @ManyToOne
@@ -42,6 +42,16 @@ public class Producto {
     /*las anotaciones insertable = false, updatable = false se coloca para que no se cree desde esta clase*/
     @JoinColumn(name = "id_categoria", insertable = false, updatable = false)
     private Categoria categoria;
+
+    /*Setter and Getter*/
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 
     public Integer getIdProducto() {
         return idProducto;

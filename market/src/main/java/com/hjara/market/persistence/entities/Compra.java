@@ -40,9 +40,10 @@ public class Compra {
     @JoinColumn(name = "id_cliente", insertable = false, updatable = false)
     private Cliente cliente;
 
+    /*Relación unos a muchos de compras con productos mapeado por
+    la variable producto en la clase compras productos*/
     @OneToMany(mappedBy = "producto")
     private List<ComprasProducto> productos;
-
 
 
     public Integer getIdCompra() {

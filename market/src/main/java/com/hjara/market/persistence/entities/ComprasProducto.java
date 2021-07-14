@@ -26,10 +26,9 @@ public class ComprasProducto {
     @JoinColumn(name = "id_compra", insertable = false, updatable = false)
     private Compra compra;
 
-    /*Esta relación se hace por que un producto tiene muchos comprasproductos*/
-    /*con la variable producto en la clase compra*/
-    @OneToMany(mappedBy = "productos")
-    private List<ComprasProducto> producto;
+    @ManyToOne
+    @JoinColumn(name = "id_producto", insertable = false, updatable = false)
+    private Producto producto;
 
 
     public ComprasProductoPK getId() {
